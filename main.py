@@ -1,11 +1,14 @@
+from dotenv import load_dotenv
+load_dotenv()
 from google import genai
 from google.genai import types
-from tools import document_understanding
+#from tools import document_understanding
 from tools import file_access
+from tools import index_document
+from tools import retrieve
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
 
 client = genai.Client(api_key=os.getenv("API"))
 flag = True
@@ -16,7 +19,9 @@ chat = client.chats.create(model="gemini-2.5-flash")
 
 tools = types.Tool(
     function_declarations=[
-        document_understanding.doc_tool,
+        #document_understanding.doc_tool,
+        index_document.index_document_tool, #for indexing used in chunks creation
+        retrieve.retrieve_document_tool, #for retrieval of a query
         file_access.file_read, 
         file_access.file_append, 
         file_access.file_write,
@@ -33,7 +38,10 @@ config = types.GenerateContentConfig(tools=[tools])
 
 
 tool_registry = {
-    "markdown" : document_understanding.doc_reader,
+
+    #"markdown" : document_understanding.doc_reader,
+    "index_document": index_document.index_document,
+    "retrieve_document":retrieve.retrieve_document,
     "list_files" : file_access.list_files,
     "read_file" : file_access.read_file,
     "write_file" : file_access.write_file,
@@ -56,10 +64,22 @@ while True:
             if(chunk.function_calls):
                 fc = chunk.function_calls[0]
                 
-                tool_result = tool_registry[fc.name](**fc.args)
+                try:
+                    tool_result = tool_registry[fc.name](**fc.args)
+
+                except Exception as e:
+                    tool_result = f"Tool Error: {str(e)}"
                 print(tool_result)
                 second_msg = chat.send_message(
-                    f"Tool Output: {tool_result}"
+                        f"""
+                User Question:
+                {prompt}
+
+                Retrieved Context:
+                {tool_result}
+
+                Using ONLY the retrieved context, answer the user's question naturally.
+                """
                 )
                 print(second_msg.text)
             elif(chunk.text):
