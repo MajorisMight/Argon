@@ -1,4 +1,4 @@
-from retrieval.document_understanding import doc_reader
+from tools.document_understanding import doc_reader
 from retrieval.cleaner import clean_markdown
 from retrieval.chunking import create_documents
 from retrieval.vector_store import create_vector_store
