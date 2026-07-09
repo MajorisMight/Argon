@@ -4,8 +4,8 @@ from google import genai
 from google.genai import types
 #from tools import document_understanding
 from tools import file_access
-from tools import index_document
-from tools import retrieve
+from retrieval import index_document
+from retrieval import retrieve
 from dotenv import load_dotenv
 import os
 
