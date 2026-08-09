@@ -19,8 +19,7 @@ class AgentLoop:
     def run(self, query):
 
         response = self.model.generate(query)
-        print(response)
-        print(type(response))
+
         # No tool call, return Gemini's answer directly
         if not response.function_calls:
             return response
