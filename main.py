@@ -1,7 +1,7 @@
-from models.gemini import GeminiModel
+from models import get_model
 from agent.loop import AgentLoop
 
-model = GeminiModel()
+model = get_model()
 agent = AgentLoop(model)
 
 agent.start()
@@ -14,4 +14,4 @@ while True:
 
     response = agent.run(query)
 
-    print("Gemini:", response.text)
+    print("Agent:", response.text)
