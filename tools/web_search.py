@@ -28,10 +28,8 @@ def web_search(query, max_results=5):
 web_search_tool = {
     "name": "web_search",
     "description": (
-        "Searches the web for current information and returns a list of "
-        "results with title, URL, and snippet. Use this for questions "
-        "about current events, recent facts, or anything that might be "
-        "outside your training data."
+        "Searches the public internet via DuckDuckGo for global current events, public news, "
+        "and general facts. Do NOT use this for private resumes, indexed documents, or local user files."
     ),
     "parameters": {
         "type": "object",

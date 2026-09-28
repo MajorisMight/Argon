@@ -8,7 +8,7 @@ MODEL_PROVIDER = os.getenv("MODEL_PROVIDER", "endpoint")  # "endpoint" or "gemin
 
 # Your self-hosted fine-tuned model endpoint URL
 LLM_ENDPOINT = os.getenv("LLM_ENDPOINT", "http://localhost:8000/v1/chat/completions")
-MODEL_NAME = os.getenv("MODEL_NAME", "argon-custom-model")
+MODEL_NAME = os.getenv("MODEL_NAME", "qwen2.5-coder:3b")
 
 # Fallback API keys (only if MODEL_PROVIDER == "gemini")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")

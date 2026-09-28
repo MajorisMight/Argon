@@ -9,6 +9,14 @@ from retrieval.document_registry import hash_file, is_indexed, register_document
 
 def index_document(path):
 
+    # Automatically resolve if file is inside data/documents/ or relative path
+    if not os.path.exists(path):
+        doc_dir_path = os.path.join("data", "documents", path)
+        if os.path.exists(doc_dir_path):
+            path = doc_dir_path
+        else:
+            return f"Error: File '{path}' does not exist. Checked '{path}' and '{doc_dir_path}'."
+
     file_hash = hash_file(path)
 
     if is_indexed(file_hash):

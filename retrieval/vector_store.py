@@ -12,7 +12,8 @@ def create_vector_store(documents):
     silently erase every chunk from the first one.
     """
 
-    if os.path.exists(VECTOR_STORE_PATH):
+    index_file = os.path.join(VECTOR_STORE_PATH, "index.faiss")
+    if os.path.exists(index_file):
         db = FAISS.load_local(
             VECTOR_STORE_PATH,
             embeddings,
